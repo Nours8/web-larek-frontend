@@ -85,7 +85,7 @@ type CardInfo = Pick<ICard, 'image' | 'title' | 'category' | 'price' | 'descript
 
 ### 5.Данные используемые для отображения карточки
 ```
-export type Basket = Pick<ICard, 'title' | 'price' | 'id'>;
+export type TBasket = Pick<ICard, 'title' | 'price' | 'id'>;
 ```
 <br>
 
@@ -111,10 +111,27 @@ export interface IBasket extends ICard {
 }
 ```
 <br>
+
+### 9. Общие данные форм заказа
+```
+export type FormContact = Pick<IOrderForm, 'email' | 'phone'>;
+```
+<br>
+
+### 10. Интерфейс для хранения данных пользователя в форме
+```
+export interface OrderData {
+  getUserInfo(): UserInfo;
+  setUserInfo(orderData: IOrderForm): void;
+  checkUserValidation(data: Record<keyof UserInfo, string>): boolean;
+}
+```
+
+<br>
 <br>
 
 ## Архитектура приложения
-Код приложение разделен на слои согласно парадигме MVP: 
+Слои архитектуры образуют шаблон проектирования Model-View-Presenter, сокращённо MVP:
 - слой представлений, отвечает за отображение данных на странице, 
 - слой данных, отвечает за хранение и Изменение данных,
 - презентер, отвечает за связь представления и данных.
@@ -201,7 +218,7 @@ export interface IBasket extends ICard {
 
 
 Метод: 
-- total: number - итоговая стоимость всех товаров в корзине
+- total(cards: ICard[]): number - итоговая стоимость всех товаров в корзине
 
 <br>
 
@@ -282,14 +299,15 @@ export interface IBasket extends ICard {
 Поля класса содержат элементы разметки элементов карточки. Конструктор, кроме темплейта принимает экземпляр `EventEmitter` для инициализации событий.
 
 Методы:
-- setData(productData: IProduct): void - заполняет атрибуты элементов карточки данными
+- setData(cardData: ICard): void - заполняет атрибуты элементов карточки данными
 - render(): HTMLElement - метод возвращает полностью заполненную карточку с установленными слушателями
 - геттер id - возвращает уникальный id карточки 
  
 <br>
 
 #### Класс `CardsContainer`
-Отвечает за отображение блока с карточками на главной станице. Предоставляет метод `addCard(cardElement: HTMLElement)` для отображения карточек на страницу. В конструктор принимает контейнер, в котором размещаются карточки.
+Отвечает за отображение блока с карточками на главной станице. \
+Предоставляет метод `addCard(cardElement: HTMLElement)` для отображения карточек на страницу. В конструктор принимает контейнер, в котором размещаются карточки.
 
 <br>
 
