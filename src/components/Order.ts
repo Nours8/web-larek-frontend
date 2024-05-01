@@ -82,12 +82,14 @@ export class Order extends Form<IOrderForm> {
         return this._cash;
     }
 
-    set cash(value: string) {
-        (this.container.elements.namedItem('cash') as HTMLInputElement).value = value;
+    set cash(value: HTMLButtonElement | null) {
+        if (value) {
+            this._cash = value;
+        }
     }
 
-    get card(): HTMLButtonElement {
-        return this._card;
+    get card(): string {
+        return (this.container.elements.namedItem('card') as HTMLInputElement).value;
     }
 
     set card(value: string) {

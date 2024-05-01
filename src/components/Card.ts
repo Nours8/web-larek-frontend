@@ -64,8 +64,8 @@ export class Card extends Component<ICard> {
         }
     }
 
-    get price(): number | string {
-        return this._price.textContent !== null ? this._price.textContent : 'Бесценно'
+    get price(): number | null {
+        return this._price.textContent !== null ? Number(this._price.textContent) : null;
     }
 
     set title(value: string) {
