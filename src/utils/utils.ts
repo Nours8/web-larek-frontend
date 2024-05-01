@@ -1,3 +1,6 @@
+
+
+// строка "HelloWorld" будет преобразована в "hello-world"
 export function pascalToKebab(value: string): string {
     return value.replace(/([a-z0–9])([A-Z])/g, "$1-$2").toLowerCase();
 }
@@ -6,8 +9,18 @@ export function isSelector(x: any): x is string {
     return (typeof x === "string") && x.length > 1;
 }
 
+// // Если значение равно null или undefined, функция возвращает true, в противном случае - false
 export function isEmpty(value: any): boolean {
     return value === null || value === undefined;
+}
+
+// Эта функция преобразует первый символ переданной строки в верхний регистр (заглавную букву), а остальные символы остаются без изменений. Например, строка "hello" будет преобразована в "Hello".
+export function capitalize(value: string): string {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+export function formatNumber(x: number, sep = ' ') {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep);
 }
 
 export type SelectorCollection<T> = string | NodeListOf<Element> | T[];
@@ -79,17 +92,6 @@ export function setElementData<T extends Record<string, unknown> | object>(el: H
 }
 
 /**
- * Получает типизированные данные из dataset атрибутов элемента
- */
-export function getElementData<T extends Record<string, unknown>>(el: HTMLElement, scheme: Record<string, Function>): T {
-    const data: Partial<T> = {};
-    for (const key in el.dataset) {
-        data[key as keyof T] = scheme[key](el.dataset[key]);
-    }
-    return data as T;
-}
-
-/**
  * Проверка на простой объект
  */
 export function isPlainObject(obj: unknown): obj is object {
@@ -133,3 +135,5 @@ export function createElement<
     }
     return element;
 }
+
+type Callback<T> = (key: string, value: unknown) => void;
